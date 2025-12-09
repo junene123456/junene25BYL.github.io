@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行星齿轮自动化分拣装配系统研究报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 1.25rem; /* 20px */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            position: relative;
+        }
+        .highlight-gradient-blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.05));
+        }
+        .highlight-gradient-green {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0), rgba(16, 185, 129, 0.05));
+        }
+        .highlight-gradient-purple {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0), rgba(139, 92, 246, 0.05));
+        }
+        .highlight-gradient-amber {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0), rgba(245, 158, 11, 0.05));
+        }
+        .highlight-gradient-red {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0), rgba(239, 68, 68, 0.05));
+        }
+        .highlight-gradient-teal {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0), rgba(20, 184, 166, 0.05));
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+            <!-- 标题卡片 -->
+            <div class="card md:col-span-4 p-8 flex flex-col justify-center items-center text-center">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-blue"></div>
+                <div class="relative">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">基于PLC、FANUC机器人的行星齿轮自动化分拣装配系统</h1>
+                    <p class="text-xl md:text-2xl text-gray-600">设计深入研究报告</p>
+                </div>
+            </div>
+
+            <!-- 系统概述卡片 -->
+            <div class="card md:col-span-2 md:row-span-2 p-8 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-green"></div>
+                <div class="relative flex-grow flex flex-col">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fa-solid fa-microchip text-green-500 mr-3"></i>系统技术架构
+                    </h2>
+                    <div class="flex-grow flex flex-col justify-center space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-3 h-3 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <h3 class="font-semibold text-gray-700">九层模块化架构</h3>
+                                <p class="text-sm text-gray-500">在ISA-95五层架构基础上创新扩展，增加分拣控制子层、力反馈层和稳定性保障层。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-3 h-3 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <h3 class="font-semibold text-gray-700">三重校验机制</h3>
+                                <p class="text-sm text-gray-500">通过材质-颜色-形状三重校验，实现对8类物料的精准识别，识别准确率达到100%。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-3 h-3 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <h3 class="font-semibold text-gray-700">混合通讯架构</h3>
+                                <p class="text-sm text-gray-500">采用CC-Link与以太网混合通讯，保证实时控制信号与大数据量信号的高效传输。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 核心器件卡片 -->
+            <div class="card md:col-span-2 p-6 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-purple"></div>
+                <div class="relative flex-grow">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fa-solid fa-robot text-purple-500 mr-3"></i>核心器件
+                    </h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-medium text-gray-700">三菱PLC</h3>
+                                <i class="fa-solid fa-microchip text-purple-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Q03UDVCPU</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-medium text-gray-700">FANUC机器人</h3>
+                                <i class="fa-solid fa-robot text-purple-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">M-10iA/12</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-medium text-gray-700">六维力传感器</h3>
+                                <i class="fa-solid fa-hand-sparkles text-purple-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">KWS-F606</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-medium text-gray-700">工业相机</h3>
+                                <i class="fa-solid fa-camera-retro text-purple-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">A3120MG000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 性能指标卡片 -->
+            <div class="card md:col-span-2 p-6 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-amber"></div>
+                <div class="relative flex-grow">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fa-solid fa-chart-line text-amber-500 mr-3"></i>关键性能指标
+                    </h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-amber-600">100%</div>
+                            <p class="text-sm text-gray-600">物料识别准确率</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-amber-600">10.2</div>
+                            <p class="text-sm text-gray-600">件/分钟</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-amber-600">±0.02</div>
+                            <p class="text-sm text-gray-600">mm 重复定位精度</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-amber-600">≤0.2</div>
+                            <p class="text-sm text-gray-600">秒 力控响应时间</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 成本效益分析卡片 -->
+            <div class="card md:col-span-2 p-6 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-red"></div>
+                <div class="relative flex-grow">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fa-solid fa-coins text-red-500 mr-3"></i>成本效益分析
+                    </h2>
+                    <div class="flex-grow flex flex-col justify-center">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">系统总成本</span>
+                            <span class="font-bold text-gray-800">18.7万元</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">国外同类产品价格</span>
+                            <span class="font-bold text-gray-800">50-100万元</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">人力成本节约</span>
+                            <span class="font-bold text-gray-800">18-24万元/年</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">投资回收期</span>
+                            <span class="font-bold text-red-600">约2.5个月</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技术发展趋势卡片 -->
+            <div class="card md:col-span-2 p-6 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-teal"></div>
+                <div class="relative flex-grow">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fa-solid fa-arrow-trend-up text-teal-500 mr-3"></i>技术发展趋势
+                    </h2>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-eye text-teal-500 mt-1 mr-3"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-700">AI视觉识别融合</h3>
+                                <p class="text-xs text-gray-500">深度学习算法提升复杂物料识别能力</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-cubes text-teal-500 mt-1 mr-3"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-700">数字孪生技术</h3>
+                                <p class="text-xs text-gray-500">实现装配过程可视化与预测优化</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-network-wired text-teal-500 mt-1 mr-3"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-700">5G技术应用</h3>
+                                <p class="text-xs text-gray-500">支持低延迟、高可靠的工业物联网</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 应用前景卡片 -->
+            <div class="card md:col-span-2 p-6 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-blue"></div>
+                <div class="relative flex-grow">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fa-solid fa-industry text-blue-500 mr-3"></i>应用前景
+                    </h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-gray-50 p-3 rounded-lg flex items-center">
+                            <i class="fa-solid fa-microchip text-blue-500 mr-2"></i>
+                            <span class="text-sm font-medium text-gray-700">电子元件装配</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex items-center">
+                            <i class="fa-solid fa-heart-pulse text-blue-500 mr-2"></i>
+                            <span class="text-sm font-medium text-gray-700">医疗器械生产</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex items-center">
+                            <i class="fa-solid fa-car text-blue-500 mr-2"></i>
+                            <span class="text-sm font-medium text-gray-700">汽车零部件制造</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex items-center">
+                            <i class="fa-solid fa-gears text-blue-500 mr-2"></i>
+                            <span class="text-sm font-medium text-gray-700">精密机械加工</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统架构图卡片 -->
+            <div class="card md:col-span-4 p-8 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-purple"></div>
+                <div class="relative flex-grow">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">系统九层模块化架构图</h2>
+                    <div class="w-full h-80">
+                        <canvas id="architectureChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 性能对比图表卡片 -->
+            <div class="card md:col-span-4 p-8 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-full highlight-gradient-green"></div>
+                <div class="relative flex-grow">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">与国内外同类产品性能对比</h2>
+                    <div class="w-full h-80">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 系统架构图
+    const architectureCtx = document.getElementById('architectureChart').getContext('2d');
+    new Chart(architectureCtx, {
+        type: 'bar',
+        data: {
+            labels: ['传统ISA-95五层架构', '本系统九层架构'],
+            datasets: [{
+                label: '控制层',
+                data: [1, 1],
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+            }, {
+                label: '执行层',
+                data: [1, 1],
+            }, {
+                label: '传感检测层',
+                data: [1, 1],
+            }, {
+                label: '视觉层',
+                data: [1, 1],
+            }, {
+                label: '通讯层',
+                data: [1, 1],
+            }, {
+                label: '分拣控制子层',
+                data: [0, 1],
+                backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            }, {
+                label: '力反馈层',
+                data: [0, 1],
+                backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            }, {
+                label: '稳定性保障层',
+                data: [0, 1],
+                backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: '层级数量'
+                    }
+                },
+                y: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: '架构类型'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            }
+        }
+    });
+
+    // 性能对比图
+    const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+    new Chart(performanceCtx, {
+        type: 'radar',
+        data: {
+            labels: ['分拣精度', '装配效率', '系统稳定性', '力控精度', '成本效益', '技术创新'],
+            datasets: [{
+                label: '本系统',
+                data: [95, 90, 92, 98, 95, 98],
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderColor: 'rgba(16, 185, 129, 1)',
+                pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(16, 185, 129, 1)'
+            }, {
+                label: '国外同类产品',
+                data: [90, 85, 88, 92, 60, 85],
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                borderColor: 'rgba(59, 130, 246, 1)',
+                pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            },
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            }
+        }
+    });
+</script>
+</html>
